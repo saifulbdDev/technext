@@ -3,10 +3,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { UserPost } from '../../Context/userpostContext'
+import Sidebar from '../../components/Sidebar'
+import { UserPosts } from '../../Context/userpostContext'
 
 function Articles() {
-    const { articles } = useContext(UserPost)
+    const { articles } = useContext(UserPosts)
     const [count, setCount] = useState(10) // initial count to show initial items
 
     const addMore = () => {
@@ -32,11 +33,18 @@ function Articles() {
     return (
         <section className="articlesList-section">
             <div className="container">
-                <div className="row">{articlesList}</div>
-                <div className="load-more">
-                    <button className="btn theme-outline-btn mt-4 btn-lg" onClick={addMore}>
-                        load more
-                    </button>
+                <div className="row">
+                    <div className="col-md-3">
+                        <Sidebar />
+                    </div>
+                    <div className="col-md-9">
+                        <div className="row">{articlesList}</div>
+                        <div className="load-more">
+                            <button className="btn theme-outline-btn mt-4 btn-lg" onClick={addMore}>
+                                load more
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

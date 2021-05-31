@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { PostProvider } from './Context/postContext'
-import { UserPostProvider } from './Context/userpostContext'
+import { UserPostsProvider, UserPostProvider } from './Context/userpostContext'
 import Home from './pages/Home'
 import Post from './pages/users/Post'
 import Profile from './pages/users/PostList'
@@ -20,12 +20,14 @@ function App() {
                     </PostProvider>
                 </Route>
                 <Route exact path="/profile">
-                    <UserPostProvider>
+                    <UserPostsProvider>
                         <Profile />
-                    </UserPostProvider>
+                    </UserPostsProvider>
                 </Route>
                 <Route exact path="/profile/post/:id">
-                    <Post />
+                    <UserPostProvider>
+                        <Post />
+                    </UserPostProvider>
                 </Route>
             </Switch>
             <Footer />
