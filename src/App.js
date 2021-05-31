@@ -6,7 +6,8 @@ import Header from './components/Header'
 import { PostProvider } from './Context/postContext'
 import { UserPostProvider } from './Context/userpostContext'
 import Home from './pages/Home'
-import Profile from './pages/users/Post'
+import Post from './pages/users/Post'
+import Profile from './pages/users/PostList'
 
 function App() {
     return (
@@ -22,6 +23,9 @@ function App() {
                     <UserPostProvider>
                         <Profile />
                     </UserPostProvider>
+                </Route>
+                <Route exact path="/profile/post/:id">
+                    <Post />
                 </Route>
             </Switch>
             <Footer />
