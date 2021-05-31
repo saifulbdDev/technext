@@ -1,0 +1,21 @@
+.articlesList-section {
+  padding: 40px 5px;
+  background: #f0f3f4;
+}
+.articlesList-section .load-more {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid rgb(0 0 0 / 11%);
+}
+.ml-auto {
+  margin-left: auto;
+}
+
+.theme-outline-btn{
+  color: #EB6126;
+    border-color: #EB6126;
+}
+.theme-outline-btn:hover{
+  color: #fff;
+   background-color: #EB6126;
+}
