@@ -3,7 +3,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Sidebar from '../../components/Sidebar'
 import { UserPosts } from '../../Context/userpostContext'
 
 function Articles() {
@@ -22,8 +21,23 @@ function Articles() {
                     <h5 className="card-title"> {article.title}</h5>
                     <p className="card-text">{article.body.slice(0, 100)}</p>
 
-                    <Link to={`/profile/post/${article.id}`} className="btn btn-outline-success">
+                    <Link
+                        to={`/own-post/${article.id}`}
+                        className="btn theme-outline-btn btn-right"
+                    >
                         Read More
+                    </Link>
+                    <Link
+                        to={`/own-post/update/${article.id}`}
+                        className="btn btn-outline-success  btn-right"
+                    >
+                        Update
+                    </Link>
+                    <Link
+                        to={`/own-post/${article.id}`}
+                        className="btn btn-outline-danger  btn-right"
+                    >
+                        Delete
                     </Link>
                 </div>
             </div>
@@ -33,18 +47,11 @@ function Articles() {
     return (
         <section className="articlesList-section">
             <div className="container">
-                <div className="row">
-                    <div className="col-md-3">
-                        <Sidebar />
-                    </div>
-                    <div className="col-md-9">
-                        <div className="row">{articlesList}</div>
-                        <div className="load-more">
-                            <button className="btn theme-outline-btn mt-4 btn-lg" onClick={addMore}>
-                                load more
-                            </button>
-                        </div>
-                    </div>
+                <div className="row">{articlesList}</div>
+                <div className="load-more">
+                    <button className="btn theme-outline-btn mt-4 btn-lg" onClick={addMore}>
+                        load more
+                    </button>
                 </div>
             </div>
         </section>

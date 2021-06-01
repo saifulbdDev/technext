@@ -1,4 +1,4 @@
-.header{
+.header {
   background: #fff;
 }
 .articlesList-section {
@@ -14,11 +14,14 @@
   margin-left: auto;
 }
 
-.theme-outline-btn{
-  color: #EB6126;
-    border-color: #EB6126;
+.theme-outline-btn {
+  color: #eb6126;
+  border-color: #eb6126;
 }
-.theme-outline-btn:hover{
+.theme-outline-btn:hover {
   color: #fff;
-   background-color: #EB6126;
+  background-color: #eb6126;
+}
+.btn-right {
+  margin-right: 10px;
 }
