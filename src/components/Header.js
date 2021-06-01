@@ -40,6 +40,15 @@ function Header() {
                                     Home
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link
+                                    className="nav-link active"
+                                    aria-current="page"
+                                    to="/user-list"
+                                >
+                                    User List
+                                </Link>
+                            </li>
                             <li className="nav-item dropdown">
                                 <a
                                     className="nav-link dropdown-toggle"
@@ -62,7 +71,7 @@ function Header() {
                                             aria-current="page"
                                             to="/profile"
                                         >
-                                            My profile
+                                            Post List
                                         </Link>
                                     </li>
                                     <li>

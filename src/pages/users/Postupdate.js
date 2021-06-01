@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom'
 import { UserPost } from '../../Context/userpostContext'
 
 function Articles() {
-    const { article  } = useContext(UserPost)
+    const { title, setTitle, body, setBody, articleUpdate } = useContext(UserPost)
     const [count, setCount] = useState(10) // initial count to show initial items
 
     const addMore = () => {
@@ -24,17 +24,25 @@ function Articles() {
                         <div className="mb-3">
                             <label className="form-label">Post title</label>
                             <input
-                                value={article.title}
+                                value={title}
                                 type="text"
-                                onChange={(e) => article.setArticle(e.target.value)}
+                                onChange={(e) => setTitle(e.target.value)}
                                 className="form-control"
                                 placeholder=" Post title"
                             />
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Description</label>
-                            <textarea value={article.body} className="form-control" rows="5" />
+                            <textarea
+                                value={body}
+                                onChange={(e) => setBody(e.target.value)}
+                                className="form-control"
+                                rows="5"
+                            />
                         </div>
+                        <button className="btn btn-info" onClick={() => articleUpdate()}>
+                            update
+                        </button>
                     </div>
                 </div>
             </div>
