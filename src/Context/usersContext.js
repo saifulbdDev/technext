@@ -1,3 +1,8 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-undef */
+/* eslint-disable no-const-assign */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-this-in-sfc */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 // import dummyTestData from "./tests/dummyTestData";
@@ -6,6 +11,7 @@ const Users = React.createContext()
 
 function UsersProvider({ children }) {
     const [users, setusers] = useState([])
+    const [state, setState] = useState([])
 
     useEffect(() => {
         // eslint-disable-next-line no-use-before-define
@@ -37,21 +43,17 @@ function UsersProvider({ children }) {
             }
             setSortConfig({ key, direction })
         }
-        const filterData = (value) => {
-            const lowercasedValue = value.toLowerCase().trim()
-            if (lowercasedValue === '') setData(items)
-            else {
-                const filteredData = items.filter((item) =>
-                    Object.keys(item).some((key) =>
-                        excludeColumns.includes(key)
-                            ? false
-                            : item[key].toString().toLowerCase().includes(lowercasedValue)
-                    )
-                )
-                setData(filteredData)
-            }
+        const handleSearchEvents = (title, name) => {
+            // console.log(title)
+            // setState({ [name]: title })
         }
-
+        const filteredData = items.filter(
+            (dataObj) =>
+                dataObj.name.indexOf(state.name) !== -1 &&
+                dataObj.website.indexOf(state.website) !== -1 &&
+                dataObj.email.indexOf(state.email) !== -1
+        )
+        items = filteredData
         return { items: sortedItems, requestSort, sortConfig }
     }
     async function fetchUsers() {
@@ -64,7 +66,7 @@ function UsersProvider({ children }) {
         }
     }
 
-    return <Users.Provider value={{ useSortableData, users }}>{children}</Users.Provider>
+    return <Users.Provider value={{ useSortableData, users, state }}>{children}</Users.Provider>
 }
 
 export { UsersProvider, Users }
