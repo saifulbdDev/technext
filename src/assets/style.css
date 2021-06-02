@@ -1,10 +1,43 @@
+.wrapper {
+  height: 100vh;
+  background: #f0f3f4;
+}
 .header {
   background: #fff;
+}
+.footer {
+  text-align: center;
 }
 .articlesList-section {
   padding: 40px 5px;
   background: #f0f3f4;
 }
+.table {
+  background: #fff;
+}
+thead button {
+  border: 0;
+  border-radius: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: inherit;
+  padding: 0.5em;
+  margin-bottom: 1px;
+  background: #fff;
+}
+
+thead button.ascending::after {
+  content: '👇';
+  display: inline-block;
+  margin-left: 1em;
+}
+
+thead button.descending::after {
+  content: '☝️';
+  display: inline-block;
+  margin-left: 1em;
+}
+
 .articlesList-section .load-more {
   text-align: center;
   margin-top: 20px;

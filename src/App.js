@@ -14,38 +14,39 @@ import UserList from './pages/users/UsersList'
 
 function App() {
     return (
-        <main className="wrapper">
+        <div>
             <Header />
-
-            <Switch>
-                <Route exact path="/">
-                    <PostProvider>
-                        <Home />
-                    </PostProvider>
-                </Route>
-                <Route exact path="/profile">
-                    <UserPostsProvider>
-                        <Profile />
-                    </UserPostsProvider>
-                </Route>
-                <Route exact path="/own-post/:id">
-                    <UserPostProvider>
-                        <Post />
-                    </UserPostProvider>
-                </Route>
-                <Route exact path="/own-post/update/:id">
-                    <UserPostProvider>
-                        <OwnPostUpdate />
-                    </UserPostProvider>
-                </Route>
-                <Route exact path="/user-list">
-                    <UsersProvider>
-                        <UserList />
-                    </UsersProvider>
-                </Route>
-            </Switch>
+            <main className="wrapper">
+                <Switch>
+                    <Route exact path="/">
+                        <PostProvider>
+                            <Home />
+                        </PostProvider>
+                    </Route>
+                    <Route exact path="/profile">
+                        <UserPostsProvider>
+                            <Profile />
+                        </UserPostsProvider>
+                    </Route>
+                    <Route exact path="/own-post/:id">
+                        <UserPostProvider>
+                            <Post />
+                        </UserPostProvider>
+                    </Route>
+                    <Route exact path="/own-post/update/:id">
+                        <UserPostProvider>
+                            <OwnPostUpdate />
+                        </UserPostProvider>
+                    </Route>
+                    <Route exact path="/user-list">
+                        <UsersProvider>
+                            <UserList />
+                        </UsersProvider>
+                    </Route>
+                </Switch>
+            </main>
             <Footer />
-        </main>
+        </div>
     )
 }
 
