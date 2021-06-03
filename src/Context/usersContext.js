@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable no-const-assign */
@@ -11,7 +12,13 @@ const Users = React.createContext()
 
 function UsersProvider({ children }) {
     const [users, setusers] = useState([])
-    const [state, setState] = useState([])
+    var [state, setState] = useState([])
+
+    state = {
+        name: '',
+        email: '',
+        website: '',
+    }
 
     useEffect(() => {
         // eslint-disable-next-line no-use-before-define
@@ -43,19 +50,13 @@ function UsersProvider({ children }) {
             }
             setSortConfig({ key, direction })
         }
+
         const handleSearchEvents = (title, name) => {
-            // console.log(title)
-            // setState({ [name]: title })
+            setState({ [name]: title })
         }
-        const filteredData = items.filter(
-            (dataObj) =>
-                dataObj.name.indexOf(state.name) !== -1 &&
-                dataObj.website.indexOf(state.website) !== -1 &&
-                dataObj.email.indexOf(state.email) !== -1
-        )
-        items = filteredData
         return { items: sortedItems, requestSort, sortConfig }
     }
+
     async function fetchUsers() {
         try {
             const content = await axios.get('https://jsonplaceholder.typicode.com/users')
@@ -66,7 +67,11 @@ function UsersProvider({ children }) {
         }
     }
 
-    return <Users.Provider value={{ useSortableData, users, state }}>{children}</Users.Provider>
+    return (
+        <Users.Provider value={{ useSortableData, users, state, setState }}>
+            {children}
+        </Users.Provider>
+    )
 }
 
 export { UsersProvider, Users }

@@ -1,12 +1,9 @@
-/* eslint-disable import/named */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react'
-import { useSortableData } from './Sortable'
 
-const { items, requestSort, sortConfig } = useSortableData(this.data)
 export class Table extends Component {
     constructor(props) {
         super(props)
@@ -41,7 +38,6 @@ export class Table extends Component {
     }
 
     handleSearchEvents = (title, name) => {
-        console.log()
         this.setState({ [name]: title })
     }
 
@@ -51,7 +47,7 @@ export class Table extends Component {
     }
 
     render() {
-        const filteredData = items.filter(
+        const filteredData = this.data.filter(
             (dataObj) =>
                 dataObj.name.indexOf(this.state.name) !== -1 &&
                 dataObj.email.indexOf(this.state.email) !== -1 &&
