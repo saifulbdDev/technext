@@ -1,121 +1,141 @@
-/* eslint-disable import/named */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-plusplus */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react'
-import { useSortableData } from './Sortable'
+/* eslint-disable react/jsx-no-duplicate-props */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable consistent-return */
+import React, { useContext } from 'react'
+import { Users } from '../../Context/usersContext'
 
-const { items, requestSort, sortConfig } = useSortableData(this.data)
-export class Table extends Component {
-    constructor(props) {
-        super(props)
+function Articles() {
+    const { users, useSortableData, state } = useContext(Users)
+    const { items, requestSort, sortConfig, handleSearchEvents, pagination } =
+        useSortableData(users)
 
-        this.data = [] // this data should not live in state
-        this.state = {
-            name: '',
-            email: '',
-            website: '',
-            isLoading: true,
+    const getClassNamesFor = (name) => {
+        if (!sortConfig) {
+            return
         }
+        return sortConfig.key === name ? sortConfig.direction : undefined
     }
 
-    // fetch src data from JSON url (on Github)
-    // UNSAFE_componentWillMount()
-    componentDidMount() {
-        // Where we're fetching data from
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-            // We get the API response and receive data in JSON format...
-            .then((response) => response.json())
-            .then((res) => {
-                const array = res
-
-                this.data = array
-                this.setState({
-                    isLoading: false,
-                })
-            })
-
-            // Catch any errors we hit and update the app
-            .catch((error) => this.setState({ error, isLoading: false }))
+    const handleOnChange = (e) => {
+        handleSearchEvents(e.target.value, e.target.name)
     }
 
-    handleSearchEvents = (title, name) => {
-        console.log()
-        this.setState({ [name]: title })
-    }
+    const rows = []
 
-    handleOnChange = (e) => {
-        // console.log('value: '+e.target.value+ ' name: '+ e.target.name);
-        this.handleSearchEvents(e.target.value, e.target.name)
-    }
-
-    render() {
-        const filteredData = items.filter(
-            (dataObj) =>
-                dataObj.name.indexOf(this.state.name) !== -1 &&
-                dataObj.email.indexOf(this.state.email) !== -1 &&
-                dataObj.website.indexOf(this.state.website) !== -1
+    // generate the table rows
+    // based on container representational pattern and Hook, CountryTable should not have business logic
+    items.forEach((dataObj) => {
+        rows.push(
+            <tr key={dataObj.id}>
+                <td>{dataObj.name}</td>
+                <td>{dataObj.email}</td>
+                <td>{dataObj.website}</td>
+            </tr>
         )
-        const rows = []
+    })
 
-        // generate the table rows
-        // based on container representational pattern and Hook, CountryTable should not have business logic
-        filteredData.forEach((dataObj) => {
-            rows.push(
-                <tr>
-                    <td>{dataObj.name}</td>
-                    <td>{dataObj.email}</td>
-                    <td>{dataObj.website}</td>
-                </tr>
-            )
-        })
-        return (
-            <section className="articlesList-section">
-                <div className="container">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={this.name}
-                                        onChange={this.handleOnChange}
-                                        placeholder="name..."
-                                    />
-                                </th>
-                                <th>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        value={this.email}
-                                        onChange={this.handleOnChange}
-                                        placeholder="email..."
-                                    />
-                                </th>
-                                <th>
-                                    <input
-                                        type="text"
-                                        name="website"
-                                        value={this.website}
-                                        onChange={this.handleOnChange}
-                                        placeholder="website..."
-                                    />
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Website</th>
-                            </tr>
-                        </thead>
-                        <tbody className="tableBodyStyle">{rows}</tbody>
-                    </table>
-                </div>
-            </section>
-        )
-    }
+    return (
+        <section className="articlesList-section">
+            <div className="container">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <button
+                                    onClick={() => requestSort('name')}
+                                    className={getClassNamesFor('name')}
+                                >
+                                    <label className="form-label">Name</label>
+                                </button>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Name"
+                                    name="name"
+                                    value={state.name}
+                                    onChange={handleOnChange}
+                                />
+                            </th>
+                            <th scope="col">
+                                <button
+                                    onClick={() => requestSort('email')}
+                                    className={getClassNamesFor('email')}
+                                >
+                                    <label className="form-label">Email address</label>
+                                </button>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={state.email}
+                                    className="form-control"
+                                    id="exampleFormControlInput1"
+                                    placeholder="Name@example.com"
+                                    onChange={handleOnChange}
+                                />
+                            </th>
+                            <th scope="col">
+                                <label className="form-label">Website</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Website"
+                                    name="website"
+                                    value={state.website}
+                                    onChange={handleOnChange}
+                                />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
+                <nav aria-label="..." className="text-center">
+                    <ul className="pagination justify-content-center">
+                        <li className="page-item disabled">
+                            <a className="page-link" tabIndex="-1" aria-disabled="true">
+                                Previous
+                            </a>
+                        </li>
+
+                        <li
+                            className="page-item "
+                            aria-current="page"
+                            className={getClassNamesFor('5')}
+                        >
+                            <button className="page-link" onClick={() => pagination(3)}>
+                                3
+                            </button>
+                        </li>
+                        <li
+                            className="page-item "
+                            aria-current="page"
+                            className={getClassNamesFor('5')}
+                        >
+                            <button className="page-link" onClick={() => pagination(5)}>
+                                5
+                            </button>
+                        </li>
+                        <li
+                            className="page-item active"
+                            aria-current="page"
+                            className={getClassNamesFor('5')}
+                        >
+                            <button className="page-link" onClick={() => pagination('all')}>
+                                All
+                            </button>
+                        </li>
+
+                        <li className="page-item">
+                            <a className="page-link">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    )
 }
 
-export default Table
+export default Articles

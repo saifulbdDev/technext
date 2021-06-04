@@ -1,9 +1,4 @@
-/* eslint-disable no-var */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
-/* eslint-disable no-const-assign */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable no-use-before-define */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 // import dummyTestData from "./tests/dummyTestData";
@@ -12,24 +7,21 @@ const Users = React.createContext()
 
 function UsersProvider({ children }) {
     const [users, setusers] = useState([])
-    var [state, setState] = useState([])
-
-    state = {
-        name: '',
-        email: '',
-        website: '',
-    }
+    const [state, setState] = useState({ name: '', email: '', website: '' })
 
     useEffect(() => {
-        // eslint-disable-next-line no-use-before-define
         fetchUsers()
     }, [])
     const useSortableData = (items, config = null) => {
         const [sortConfig, setSortConfig] = React.useState(config)
+        const [setConfig, setdata] = React.useState(config)
+        const [pagenumbers, setpagination] = React.useState(config)
 
         const sortedItems = React.useMemo(() => {
             const sortableItems = [...items]
+
             if (sortConfig !== null) {
+                console.log(sortConfig.key, sortConfig.direction, 'fff')
                 sortableItems.sort((a, b) => {
                     if (a[sortConfig.key] < b[sortConfig.key]) {
                         return sortConfig.direction === 'ascending' ? -1 : 1
@@ -40,21 +32,40 @@ function UsersProvider({ children }) {
                     return 0
                 })
             }
+            if (setConfig !== null) {
+                console.log(setConfig)
+                return sortableItems.filter(
+                    (item) => item[setConfig.name].indexOf(setConfig.title) !== -1
+                )
+            }
+            if (pagenumbers !== null) {
+                if (pagenumbers !== 'all') {
+                    return items.slice(0, pagenumbers)
+                }
+                return items
+            }
+
             return sortableItems
-        }, [items, sortConfig])
+        }, [items, sortConfig, setConfig, pagenumbers])
 
         const requestSort = (key) => {
             let direction = 'ascending'
             if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
                 direction = 'descending'
             }
+
             setSortConfig({ key, direction })
         }
 
         const handleSearchEvents = (title, name) => {
             setState({ [name]: title })
+            setdata({ name, title })
         }
-        return { items: sortedItems, requestSort, sortConfig }
+        const pagination = (pagenumber) => {
+            setpagination(pagenumber)
+        }
+
+        return { items: sortedItems, requestSort, sortConfig, handleSearchEvents, pagination }
     }
 
     async function fetchUsers() {
