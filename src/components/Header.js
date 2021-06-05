@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react'
@@ -49,7 +50,11 @@ function Header() {
                                     User List
                                 </Link>
                             </li>
-                            <li className="nav-item dropdown">
+                            <li
+                                className="nav-item dropdown"
+                                onMouseOut={handletoggle}
+                                onMouseOver={handletoggle}
+                            >
                                 <a
                                     className="nav-link dropdown-toggle"
                                     href="#"
@@ -65,7 +70,7 @@ function Header() {
                                     className={`${ismenu ? 'dropdown-menu' : 'dropdown-menu show'}`}
                                     aria-labelledby="navbarDropdown"
                                 >
-                                    <li>
+                                    <li className="nav-item">
                                         <Link
                                             className="nav-link active"
                                             aria-current="page"

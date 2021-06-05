@@ -5,7 +5,20 @@
 .header {
   background: #fff;
 }
+.nav-item .nav-link {
+  color: #000;
+}
+.nav-item .nav-link:hover {
+  color: #fff;
+  background-color: #eb6126;
+}
 .footer {
+  text-align: center;
+}
+.ml-4 {
+  margin-left: 20px;
+}
+.alert-success {
   text-align: center;
 }
 .articlesList-section {
@@ -55,6 +68,21 @@ thead button.descending::after {
   color: #fff;
   background-color: #eb6126;
 }
+.theme-btn {
+  color: #fff;
+  background-color: #eb6126;
+}
+.theme-btn:hover {
+  color: #eb6126;
+  background-color: #fff;
+}
 .btn-right {
   margin-right: 10px;
+}
+.post_add{
+  text-align: right;
+  margin-bottom: 10px;
+}
+.hide {
+  display: none;
 }
