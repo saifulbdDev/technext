@@ -6,10 +6,17 @@
 import React, { useContext } from 'react'
 import { Users } from '../../Context/usersContext'
 
-function Articles() {
+function UserList() {
     const { users, useSortableData, state } = useContext(Users)
-    const { items, requestSort, sortConfig, handleSearchEvents, pagination } =
-        useSortableData(users)
+    const {
+        items,
+        requestSort,
+        sortConfig,
+        handleSearchEvents,
+        pagination,
+        handlePrev,
+        handleNext,
+    } = useSortableData(users)
 
     const getClassNamesFor = (name) => {
         if (!sortConfig) {
@@ -95,41 +102,36 @@ function Articles() {
                 <nav aria-label="..." className="text-center">
                     <ul className="pagination justify-content-center">
                         <li className="page-item disabled">
-                            <a className="page-link" tabIndex="-1" aria-disabled="true">
+                            <button
+                                className="page-link"
+                                tabIndex="-1"
+                                aria-disabled="true"
+                                onClick={() => handlePrev()}
+                            >
                                 Previous
-                            </a>
+                            </button>
                         </li>
 
-                        <li
-                            className="page-item "
-                            aria-current="page"
-                            className={getClassNamesFor('5')}
-                        >
+                        <li className="page-item " aria-current="page">
                             <button className="page-link" onClick={() => pagination(3)}>
                                 3
                             </button>
                         </li>
-                        <li
-                            className="page-item "
-                            aria-current="page"
-                            className={getClassNamesFor('5')}
-                        >
+                        <li className="page-item " aria-current="page">
                             <button className="page-link" onClick={() => pagination(5)}>
                                 5
                             </button>
                         </li>
-                        <li
-                            className="page-item active"
-                            aria-current="page"
-                            className={getClassNamesFor('5')}
-                        >
+                        <li className="page-item active" aria-current="page">
                             <button className="page-link" onClick={() => pagination('all')}>
                                 All
                             </button>
                         </li>
 
                         <li className="page-item">
-                            <a className="page-link">Next</a>
+                            <button className="page-link" onClick={() => handleNext()}>
+                                Next
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -138,4 +140,4 @@ function Articles() {
     )
 }
 
-export default Articles
+export default UserList

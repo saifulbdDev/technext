@@ -1,3 +1,8 @@
+/* eslint-disable consistent-return */
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-var */
+
 /* eslint-disable no-use-before-define */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -19,9 +24,10 @@ function UsersProvider({ children }) {
 
         const sortedItems = React.useMemo(() => {
             const sortableItems = [...items]
+            var sConfig = JSON.parse(localStorage.getItem('sortConfig'))
+            var search = JSON.parse(localStorage.getItem('search'))
 
             if (sortConfig !== null) {
-                console.log(sortConfig.key, sortConfig.direction, 'fff')
                 sortableItems.sort((a, b) => {
                     if (a[sortConfig.key] < b[sortConfig.key]) {
                         return sortConfig.direction === 'ascending' ? -1 : 1
@@ -31,18 +37,21 @@ function UsersProvider({ children }) {
                     }
                     return 0
                 })
+            } else if (sConfig) {
+                setSortConfig(sConfig)
             }
             if (setConfig !== null) {
-                console.log(setConfig)
-                return sortableItems.filter(
-                    (item) => item[setConfig.name].indexOf(setConfig.title) !== -1
-                )
+                return sortableItems.filter((item) => {
+                    return item[setConfig.name]
+                        .toLowerCase()
+                        .includes(setConfig.title.toLowerCase())
+                })
             }
             if (pagenumbers !== null) {
                 if (pagenumbers !== 'all') {
-                    return items.slice(0, pagenumbers)
+                    return sortableItems.slice(0, pagenumbers)
                 }
-                return items
+                return sortableItems
             }
 
             return sortableItems
@@ -53,26 +62,46 @@ function UsersProvider({ children }) {
             if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
                 direction = 'descending'
             }
+            const sortConfi = {
+                key,
+                direction,
+            }
+
+            localStorage.setItem('sortConfig', JSON.stringify(sortConfi))
 
             setSortConfig({ key, direction })
         }
 
         const handleSearchEvents = (title, name) => {
+            const search = {
+                name,
+                title,
+            }
+            localStorage.setItem('search', JSON.stringify(search))
             setState({ [name]: title })
             setdata({ name, title })
         }
         const pagination = (pagenumber) => {
             setpagination(pagenumber)
         }
+        const handlePrev = () => {}
+        const handleNext = () => {}
 
-        return { items: sortedItems, requestSort, sortConfig, handleSearchEvents, pagination }
+        return {
+            items: sortedItems,
+            requestSort,
+            sortConfig,
+            handleSearchEvents,
+            pagination,
+            handlePrev,
+            handleNext,
+        }
     }
 
     async function fetchUsers() {
         try {
             const content = await axios.get('https://jsonplaceholder.typicode.com/users')
             setusers(content.data)
-            console.log(content)
         } catch (error) {
             console.log(error)
         }
