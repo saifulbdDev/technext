@@ -8,8 +8,8 @@ import { UserPostProvider, UserPostsProvider } from './Context/userpostContext'
 import { UsersProvider } from './Context/usersContext'
 import Home from './pages/Home'
 import Post from './pages/users/Post'
-import Profile from './pages/users/PostList'
 import OwnPostUpdate from './pages/users/Postupdate'
+import Profile from './pages/users/Profile'
 import UserList from './pages/users/UsersList'
 
 function App() {

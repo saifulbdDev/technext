@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 
@@ -7,7 +8,7 @@ function Footer() {
     return (
         <div className="footer">
             <span>Follow me on github </span>
-            <small>&copy; {year.getFullYear()} Lean Innovation Group</small>
+            <a className="saiful" href="https://github.com/saifulbdDev">&copy; {year.getFullYear()} saifulbdDev</a>
         </div>
     )
 }

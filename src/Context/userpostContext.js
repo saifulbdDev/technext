@@ -1,3 +1,7 @@
+/* eslint-disable no-const-assign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
 /* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 /* eslint-disable no-empty */
@@ -13,19 +17,34 @@ const UserPost = React.createContext()
 
 function UserPostsProvider({ children }) {
     const [articles, setArticles] = useState([])
+    const [user, setUser] = useState([])
     const [title, setTitle] = useState([])
+    const [id, setId] = useState(100)
+    const [userId, setUserId] = useState(2)
     const [body, setBody] = useState([])
-    const [status, setStatus] = useState([])
+    const [show, setShow] = useState(false)
+    const [status, Addstatus] = useState()
     useEffect(() => {
-        // eslint-disable-next-line no-use-before-define
         fetchArticles()
+        fetchUser()
     }, [])
 
     async function fetchArticles() {
+        const userlgId = localStorage.getItem('userId')
+        setUserId(userlgId)
         try {
-            const content = await axios.get('https://jsonplaceholder.typicode.com/posts?userId=2')
+            const content = await axios.get(
+                `https://jsonplaceholder.typicode.com/posts?userId=${userId}`
+            )
             setArticles(content.data)
-            console.log(content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async function fetchUser() {
+        try {
+            const user = await axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`)
+            setUser(user.data)
         } catch (error) {
             console.log(error)
         }
@@ -46,9 +65,17 @@ function UserPostsProvider({ children }) {
                 if (response.status !== 201) {
                 } else {
                     const arry = articles
-                    const { id } = response.data
+                    var number1 = id
+                    var number2 = 1
+                    var idS = number1 + number2
+                    setId(idS)
+
                     arry.push({ userId: 2, id, title, body })
-                    setStatus(arry)
+                    setArticles(arry)
+                    setShow(false)
+                    Addstatus(response.status)
+                    setTitle('')
+                    setBody('')
                 }
             })
 
@@ -68,8 +95,7 @@ function UserPostsProvider({ children }) {
                 return
             }
             setArticles(articles.filter((article) => article.id !== id))
-
-            console.log(content)
+            Addstatus(content.status)
         } catch (error) {
             console.log(error)
         }
@@ -77,7 +103,20 @@ function UserPostsProvider({ children }) {
 
     return (
         <UserPosts.Provider
-            value={{ articles, deleteitem, title, setTitle, body, setBody, Addarticle, status }}
+            value={{
+                articles,
+                deleteitem,
+                title,
+                setTitle,
+                body,
+                setBody,
+                Addarticle,
+                show,
+                setShow,
+                status,
+                Addstatus,
+                user,
+            }}
         >
             {children}
         </UserPosts.Provider>
@@ -85,6 +124,7 @@ function UserPostsProvider({ children }) {
 }
 function UserPostProvider({ children }) {
     const [article, setArticle] = useState([])
+    const [comments, setComments] = useState([])
     const [title, setTitle] = useState([])
     const [body, setBody] = useState([])
     const [userId, setUserId] = useState([])
@@ -94,6 +134,7 @@ function UserPostProvider({ children }) {
     useEffect(() => {
         // eslint-disable-next-line no-use-before-define
         fetchArticle()
+        fetchComments()
     }, [])
 
     async function fetchArticle() {
@@ -103,7 +144,16 @@ function UserPostProvider({ children }) {
             setTitle(content.data.title)
             setBody(content.data.body)
             setUserId(content.data.userId)
-            console.log(content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async function fetchComments() {
+        try {
+            const content = await axios.get(
+                `https://jsonplaceholder.typicode.com/posts/${id}/comments`
+            )
+            setComments(content.data)
         } catch (error) {
             console.log(error)
         }
@@ -133,7 +183,7 @@ function UserPostProvider({ children }) {
 
     return (
         <UserPost.Provider
-            value={{ article, title, setTitle, body, setBody, articleUpdate, status }}
+            value={{ article, title, setTitle, body, setBody, articleUpdate, status, comments }}
         >
             {children}
         </UserPost.Provider>

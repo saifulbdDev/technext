@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-else-return */
+/* eslint-disable no-lonely-if */
 /* eslint-disable consistent-return */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-vars */
@@ -20,13 +23,13 @@ function UsersProvider({ children }) {
     const useSortableData = (items, config = null) => {
         const [sortConfig, setSortConfig] = React.useState(config)
         const [setConfig, setdata] = React.useState(config)
-        const [pagenumbers, setpagination] = React.useState(config)
+        const [pagenumbers, setpagination] = React.useState()
 
         const sortedItems = React.useMemo(() => {
             const sortableItems = [...items]
             var sConfig = JSON.parse(localStorage.getItem('sortConfig'))
             var search = JSON.parse(localStorage.getItem('search'))
-
+           
             if (sortConfig !== null) {
                 sortableItems.sort((a, b) => {
                     if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -46,11 +49,21 @@ function UsersProvider({ children }) {
                         .toLowerCase()
                         .includes(setConfig.title.toLowerCase())
                 })
-            }
-            if (pagenumbers !== null) {
-                if (pagenumbers !== 'all') {
-                    return sortableItems.slice(0, pagenumbers)
+            }else{
+                if (search) {
+                    setState({ [search.name]: search.title })
+                    const { name } = search
+                    const { title } = search
+                    setdata({ name, title })
                 }
+            }
+
+            if (pagenumbers) {
+                 console.log(pagenumbers)
+              
+                    return sortableItems.slice(0, pagenumbers)
+                
+                // eslint-disable-next-line no-unreachable
                 return sortableItems
             }
 
@@ -81,9 +94,7 @@ function UsersProvider({ children }) {
             setState({ [name]: title })
             setdata({ name, title })
         }
-        const pagination = (pagenumber) => {
-            setpagination(pagenumber)
-        }
+      
         const handlePrev = () => {}
         const handleNext = () => {}
 
@@ -92,7 +103,7 @@ function UsersProvider({ children }) {
             requestSort,
             sortConfig,
             handleSearchEvents,
-            pagination,
+            setpagination,
             handlePrev,
             handleNext,
         }
@@ -115,3 +126,4 @@ function UsersProvider({ children }) {
 }
 
 export { UsersProvider, Users }
+

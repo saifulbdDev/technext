@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useRef } from 'react'
@@ -16,7 +17,7 @@ const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
     return (
         <>
             <div ref={modalRef} style={backdropStyle} className={`${styles.modal}`}>
-                <div focusout={onClose} style={modalStyle} className={styles.modal__wrap}>
+                <div style={modalStyle} className={styles.modal__wrap}>
                     {children}
                 </div>
             </div>

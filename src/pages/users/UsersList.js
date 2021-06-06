@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable consistent-return */
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Users } from '../../Context/usersContext'
 
 function UserList() {
@@ -13,7 +14,7 @@ function UserList() {
         requestSort,
         sortConfig,
         handleSearchEvents,
-        pagination,
+        setpagination,
         handlePrev,
         handleNext,
     } = useSortableData(users)
@@ -28,7 +29,12 @@ function UserList() {
     const handleOnChange = (e) => {
         handleSearchEvents(e.target.value, e.target.name)
     }
+    const history = useHistory()
 
+    const ChangeUser = (id) => {
+        localStorage.setItem('userId', JSON.stringify(id))
+        history.push(`/profile`)
+    }
     const rows = []
 
     // generate the table rows
@@ -36,7 +42,11 @@ function UserList() {
     items.forEach((dataObj) => {
         rows.push(
             <tr key={dataObj.id}>
-                <td>{dataObj.name}</td>
+                <td>
+                    <button className="btn" onClick={() => ChangeUser(dataObj.id)}>
+                        {dataObj.name}
+                    </button>
+                </td>
                 <td>{dataObj.email}</td>
                 <td>{dataObj.website}</td>
             </tr>
@@ -113,17 +123,17 @@ function UserList() {
                         </li>
 
                         <li className="page-item " aria-current="page">
-                            <button className="page-link" onClick={() => pagination(3)}>
+                            <button className="page-link" onClick={() => setpagination(3)}>
                                 3
                             </button>
                         </li>
                         <li className="page-item " aria-current="page">
-                            <button className="page-link" onClick={() => pagination(5)}>
+                            <button className="page-link" onClick={() => setpagination(5)}>
                                 5
                             </button>
                         </li>
                         <li className="page-item active" aria-current="page">
-                            <button className="page-link" onClick={() => pagination('all')}>
+                            <button className="page-link" onClick={() => setpagination('all')}>
                                 All
                             </button>
                         </li>

@@ -1,66 +1,55 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/named */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useContext, useState } from 'react'
-import Sidebar from '../../components/Sidebar'
+import React, { useContext } from 'react'
 import { UserPost } from '../../Context/userpostContext'
 
-function Articles() {
-    const { articless } = useContext(UserPost)
-    const [count, setCount] = useState(10) // initial count to show initial items
+function Article() {
+    const { article, comments } = useContext(UserPost)
 
-    const addMore = () => {
-        // function that will make count add by 2 to show 2 more items
-        setCount(count + 10)
-    }
+    const CommentList = comments.map((comment) => (
+        <div className="card p-3" key={comment.id}>
+            <div className="d-flex justify-content-between align-items-center">
+                <div className="col-md-2">
+                    <img
+                        src="https://www.w3schools.com/w3images/avatar2.png"
+                        width="70"
+                        className="user-img rounded-circle mr-2"
+                    />
+                </div>
+                <div className="col-md-10">
+                    <h4 className="card-title">
+                        <small className="card-email">{comment.email}</small>
+                        <span className="card-name">{comment.name}</span>
+                    </h4>
+                    <p className="card-text">{comment.body}</p>
+                </div>
+            </div>
+        </div>
+    ))
 
     return (
         <section className="articlesList-section">
             <div className="container">
                 <div className="row">
-                    <div className="col-md-3">
-                        <Sidebar />
+                    <div className="col-md-9 mx-auto">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">{article.title}</h5>
+                                <p className="card-text">{article.body}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-md-9">
-                        <div className="row">
-                            {' '}
-                            <from>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="exampleFormControlInput1"
-                                        className="form-label"
-                                    >
-                                        Email address
-                                    </label>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        id="exampleFormControlInput1"
-                                        placeholder="name@example.com"
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="exampleFormControlTextarea1"
-                                        className="form-label"
-                                    >
-                                        Example textarea
-                                    </label>
-                                    <textarea
-                                        className="form-control"
-                                        id="exampleFormControlTextarea1"
-                                        rows="3"
-                                    />
-                                </div>
-                            </from>
+                </div>
+                <div className="row   mt-5">
+                    <div className="col-md-9 mx-auto">
+                        <div className="headings d-flex justify-content-between align-items-center mb-3">
+                            <h5>Total Comments ({comments.length})</h5>
                         </div>
-                        <div className="load-more">
-                            <button className="btn theme-outline-btn mt-4 btn-lg" onClick={addMore}>
-                                load more
-                            </button>
-                        </div>
+                        {CommentList}
                     </div>
                 </div>
             </div>
@@ -68,4 +57,4 @@ function Articles() {
     )
 }
 
-export default Articles
+export default Article

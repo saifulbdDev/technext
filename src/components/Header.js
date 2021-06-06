@@ -9,9 +9,9 @@ function Header() {
     const [isNavCollapsed, setIsNavCollapsed] = useState(true)
 
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed)
-    const [ismenu, setIsmenu] = useState(true)
+    // const [ismenu, setIsmenu] = useState(true)
 
-    const handletoggle = () => setIsmenu(!ismenu)
+    // const handletoggle = () => setIsmenu(!ismenu)
     return (
         <header className="header">
             <nav className="navbar navbar-expand-lg ">
@@ -50,7 +50,12 @@ function Header() {
                                     User List
                                 </Link>
                             </li>
-                            <li
+                            <li className="nav-item">
+                                <Link className="nav-link active" aria-current="page" to="/profile">
+                                    My profile
+                                </Link>
+                            </li>
+                            {/* <li
                                 className="nav-item dropdown"
                                 onMouseOut={handletoggle}
                                 onMouseOver={handletoggle}
@@ -99,7 +104,7 @@ function Header() {
                                         </Link>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

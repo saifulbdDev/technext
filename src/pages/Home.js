@@ -21,7 +21,7 @@ function Articles() {
                     <h5 className="card-title"> {article.title}</h5>
                     <p className="card-text">{article.body.slice(0, 100)}</p>
 
-                    <Link to={`/${article.id}`} className="btn btn-outline-success">
+                    <Link to={`/own-post/${article.id}`} className="btn btn-outline-success">
                         Read More
                     </Link>
                 </div>
